@@ -72,7 +72,7 @@
  select *from tb_employee e,tb_department d,tb_position p where e.depId=d.departmentId and e.posId=p.positioId and e.id=#{id} 
  </select>
  <!-- $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ -->
- <!-- 根据id删除员工信息 -->
+ <!-- 根据id删除员工信息 测试使用-->
     <delete id="deleteEmployee" parameterType="int">
        delete from tb_employee where id=#{id}
     </delete>
