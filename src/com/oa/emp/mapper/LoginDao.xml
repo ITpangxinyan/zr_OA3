@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oa.emp.mapper.LoginDao">
+ <!-- 根据用户名查询用户信息 -->
+  <select id="getEmp" parameterType="String" resultType="com.oa.emp.pojo.Emp">
+    select nameid, password from tb_employee where nameid=#{name}
+  </select>
+  <!-- 根据用户名查用户的角色 -->
+   <select id="getRoles" parameterType="String" resultType="String">
+        select r.ROLE_NAME from tb_employee e,user_role ur,role r where e.id=ur.USER_ID and ur.ROLE_ID=r.ROLE_ID and e.nameid=#{name}
+   </select>
+   <!-- 根据用户名查询用户的权限 -->
+  
+</mapper>

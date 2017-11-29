@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oa.system.mapper.EmployeeDao">
+<!-- 添加员工 -->
+ <insert id="saveEmployee" parameterType="com.oa.system.pojo.Employee" >
+   insert into Tb_Employee(name,nameid,password,sex,dateOfBirth,email,telephone,cellphone,address,introduce,depId,posId)
+   values(#{name},#{nameid},#{password},#{sex},#{dateOfBirth},#{email},#{telephone},#{cellphone},#{address},#{introduce},#{departmentId},#{positionId});
+ </insert>
+ 
+ <!-- $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ -->
+ <!-- 查询所有的信息 -->
+ <resultMap type="com.oa.system.pojo.Employee" id="EmployeeAllMap">
+ <id property="id" column="id"/>
+ <result property="name" column="name"/>
+ <result property="nameid" column="nameid"/>
+ <result property="password" column="password"/>
+ <result property="dateOfBirth" column="dateOfBirth"/>
+ <result property="email" column="email"/>
+ <result property="telephone" column="telephone"/>
+  <result property="cellphone" column="cellphone"/>
+  <result property="address" column="address"/>
+  <result property="introduce" column="introduce"/>
+  <!-- 一对一查询出部门的信息 -->
+ <association property="department" javaType="com.oa.system.pojo.Department">
+    <id property="id" column="departmentId"/>
+    <result property="name" column="departmentName"/>
+ </association>
+ <!-- 一对一查询出岗位的信息 -->
+ <association property="position" javaType="com.oa.system.pojo.Position">
+    <id property="id" column="positioId"/>
+    <result property="name" column="positioName"/>
+ </association>
+ </resultMap>
+  <!-- 查询所有的信息 -->
+ <select id="selectAllEmployee" parameterType="map" resultMap="EmployeeAllMap" >
+ select *from tb_employee e,tb_department d,tb_position p  where  e.depId=d.departmentId and e.posId=p.positioId 
+
+  order by e.id
+    limit #{currIndex} , #{pageSize}
+ </select>
+ 
+ <!-- 获取员工列表的总行数 -->
+ <select id="getCount" resultType="java.lang.Integer">
+     select  count(*) from tb_employee	
+ </select>
+  <!-- $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ -->
+<!-- 根据id查询单个的员工信息 -->
+   <resultMap type="com.oa.system.pojo.Employee" id="EmployeeMap">
+ <id property="id" column="id"/>
+ <result property="name" column="name"/>
+ <result property="nameid" column="nameid"/>
+ <result property="password" column="password"/>
+ <result property="dateOfBirth" column="dateOfBirth"/>
+ <result property="email" column="email"/>
+ <result property="telephone" column="telephone"/>
+  <result property="cellphone" column="cellphone"/>
+  <result property="address" column="address"/>
+  <result property="introduce" column="introduce"/>
+  <!-- 一对一查询出部门的信息 -->
+ <association property="department" javaType="com.oa.system.pojo.Department">
+    <id property="id" column="departmentId"/>
+    <result property="name" column="departmentName"/>
+ </association>
+ <!-- 一对一查询出岗位的信息 -->
+ <association property="position" javaType="com.oa.system.pojo.Position">
+    <id property="id" column="positioId"/>
+    <result property="name" column="positioName"/>
+ </association>
+ </resultMap>
+  <!-- 根据id查询单个的员工信息  -->
+ <select id="selecteEmployee" parameterType="int" resultMap="EmployeeMap" >
+ select *from tb_employee e,tb_department d,tb_position p where e.depId=d.departmentId and e.posId=p.positioId and e.id=#{id} 
+ </select>
+ <!-- $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ -->
+ <!-- 根据id删除员工信息 -->
+    <delete id="deleteEmployee" parameterType="int">
+       delete from tb_employee where id=#{id}
+    </delete>
+ <!-- ############################ -->
+  <!-- 查询最大员工编号 -->
+   <select id="getMaxId" resultType="java.lang.Integer"> 
+    select max(id) from tb_employee
+   </select>
+ 
+</mapper>

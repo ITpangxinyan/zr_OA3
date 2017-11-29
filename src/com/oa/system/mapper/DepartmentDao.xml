@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oa.system.mapper.DepartmentDao">
+ <!-- 添加部门 -->
+ <insert id="saveDep" parameterType="com.oa.system.pojo.Department">
+   insert into tb_department(departmentName,departmentLoc)values(#{name},#{location})
+ </insert>
+<!-- $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ -->
+  <!-- 查询出部门的总行数 -->
+  <select id="getCount" resultType="java.lang.Integer">
+    select count(*) from tb_department
+  </select>
+  <!-- 分页查询部门信息 -->
+  <select id="selectAllDep" parameterType="map" resultType="com.oa.system.pojo.Department">
+    select departmentId as id,departmentName as name,departmentLoc as location from tb_department
+    order by departmentId
+     limit #{currIndex} , #{pageSize}
+    
+  </select>
+ <!-- $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ --> 
+   <!-- 删除部门 -->
+   <delete id="deleteDep" parameterType="int">
+     delete from tb_department where departmentId=#{id}
+     </delete>
+ <!-- $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ -->
+     <!-- 根据name查询单个部门信息 -->
+     <select id="selectDep" parameterType="String" resultType="com.oa.system.pojo.Department">
+      select departmentId as id,departmentName as name,departmentLoc as location from tb_department
+      where departmentName=#{name}
+     </select>
+<!-- $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ -->
+  <!-- 修改部门 --> 
+  <update id="updateDep" parameterType="com.oa.system.pojo.Department"> 
+    update tb_department set departmentName=#{name},departmentLoc=#{location} where departmentId =#{id}
+  </update>
+  
+</mapper>
